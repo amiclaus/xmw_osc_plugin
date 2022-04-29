@@ -2,24 +2,38 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
-  <object class="GtkAdjustment" id="adj_altVoltage0_nco">
-    <property name="upper">7500</property>
+  <object class="GtkAdjustment" id="adj_downconv_altvoltage0_i_gain">
+    <property name="upper">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adj_altVoltage0_scale">
-    <property name="lower">-91</property>
+  <object class="GtkAdjustment" id="adj_downconv_altvoltage0_i_offset">
+    <property name="upper">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adj_altVoltage0_scale_offset">
-    <property name="lower">-91</property>
-    <property name="upper">91</property>
+  <object class="GtkAdjustment" id="adj_downconv_altvoltage0_i_phase">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_downconv_altvoltage0_q_gain">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_downconv_altvoltage0_q_offset">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_downconv_altvoltage0_q_phase">
+    <property name="upper">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adj_sampling_frequency">
-    <property name="upper">6000</property>
+    <property name="upper">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -62,6 +76,7 @@
                             <property name="n_columns">4</property>
                             <property name="column_spacing">5</property>
                             <property name="row_spacing">5</property>
+                            <property name="homogeneous">True</property>
                             <child>
                               <placeholder/>
                             </child>
@@ -209,7 +224,7 @@
             <property name="yscale">0.5</property>
             <property name="left_padding">12</property>
             <child>
-              <object class="GtkFrame" id="frame1">
+              <object class="GtkFrame" id="downconv_frame">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label_xalign">0</property>
@@ -224,34 +239,17 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_bottom">3</property>
-                        <property name="n_rows">5</property>
+                        <property name="n_rows">6</property>
                         <property name="n_columns">4</property>
                         <property name="column_spacing">5</property>
                         <property name="row_spacing">16</property>
+                        <property name="homogeneous">True</property>
                         <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label_phase_downconv">
+                          <object class="GtkLabel" id="label_i_phase_downconv">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
-                            <property name="label" translatable="yes">Phase(degrees)</property>
+                            <property name="label" translatable="yes">I Phase</property>
                             <property name="xalign">0</property>
                           </object>
                           <packing>
@@ -260,12 +258,12 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSpinButton" id="spinbutton_phase_downconv">
+                          <object class="GtkSpinButton" id="spinbutton_i_phase_downconv">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
-                            <property name="adjustment">adj_sampling_frequency</property>
+                            <property name="adjustment">adj_downconv_altvoltage0_i_phase</property>
                             <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
@@ -291,11 +289,11 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label_offset_downconv">
+                          <object class="GtkLabel" id="label_q_phase_downconv">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
-                            <property name="label" translatable="yes">Offset</property>
+                            <property name="label" translatable="yes">Q Phase</property>
                             <property name="xalign">0</property>
                           </object>
                           <packing>
@@ -306,12 +304,11 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSpinButton" id="spinbutton_offset_downconv">
+                          <object class="GtkSpinButton" id="spinbutton_q_phase_downconv">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
-                            <property name="adjustment">adj_sampling_frequency</property>
                             <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
@@ -469,6 +466,143 @@
                             <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="GtkLabel" id="label_i_offset_downconv">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">I Offset</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label_q_offset_downconv">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Q Offset</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="spinbutton_i_offset_downconv">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="text" translatable="yes">0,000000</property>
+                            <property name="progress_pulse_step">0.11</property>
+                            <property name="adjustment">adj_sampling_frequency</property>
+                            <property name="digits">6</property>
+                            <property name="numeric">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                            <property name="x_options"/>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="spinbutton_q_offset_downconv">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="text" translatable="yes">0,000000</property>
+                            <property name="progress_pulse_step">0.11</property>
+                            <property name="adjustment">adj_sampling_frequency</property>
+                            <property name="digits">6</property>
+                            <property name="numeric">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
+                            <property name="x_options"/>
+                          </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label_i_gain_downconv">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">I Gain</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="top_attach">4</property>
+                            <property name="bottom_attach">5</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label_q_gain_downconv">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Q Gain</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="top_attach">5</property>
+                            <property name="bottom_attach">6</property>
+                            <property name="y_options">GTK_FILL</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="spinbutton_i_gain_downconv">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="text" translatable="yes">0,000000</property>
+                            <property name="progress_pulse_step">0.11</property>
+                            <property name="adjustment">adj_sampling_frequency</property>
+                            <property name="digits">6</property>
+                            <property name="numeric">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">4</property>
+                            <property name="bottom_attach">5</property>
+                            <property name="x_options"/>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="spinbutton_phase_downconv4">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="text" translatable="yes">0,000000</property>
+                            <property name="progress_pulse_step">0.11</property>
+                            <property name="adjustment">adj_sampling_frequency</property>
+                            <property name="digits">6</property>
+                            <property name="numeric">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">5</property>
+                            <property name="bottom_attach">6</property>
+                            <property name="x_options"/>
+                          </packing>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -502,7 +636,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkFrame" id="admv1014_frame2">
+      <object class="GtkFrame" id="admv1013_frame">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label_xalign">0</property>
@@ -514,7 +648,7 @@
             <property name="yscale">0.5</property>
             <property name="left_padding">12</property>
             <child>
-              <object class="GtkFrame" id="frame3">
+              <object class="GtkFrame" id="upconv_frame">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label_xalign">0</property>
@@ -525,7 +659,7 @@
                     <property name="can_focus">False</property>
                     <property name="left_padding">12</property>
                     <child>
-                      <object class="GtkTable" id="admv1014_table3">
+                      <object class="GtkTable" id="admv1013_table">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_bottom">3</property>
@@ -533,6 +667,7 @@
                         <property name="n_columns">4</property>
                         <property name="column_spacing">5</property>
                         <property name="row_spacing">16</property>
+                        <property name="homogeneous">True</property>
                         <child>
                           <placeholder/>
                         </child>
@@ -540,23 +675,11 @@
                           <placeholder/>
                         </child>
                         <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label_phase_upconv">
+                          <object class="GtkLabel" id="label_i_phase_upconv">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
-                            <property name="label" translatable="yes">Phase(degrees)</property>
+                            <property name="label" translatable="yes">I Phase</property>
                             <property name="xalign">0</property>
                           </object>
                           <packing>
@@ -580,11 +703,11 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label_offset_upconv">
+                          <object class="GtkLabel" id="label_q_phase_upconv">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
-                            <property name="label" translatable="yes">Offset</property>
+                            <property name="label" translatable="yes">Q Phase</property>
                             <property name="xalign">0</property>
                           </object>
                           <packing>
@@ -595,12 +718,11 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSpinButton" id="spinbutton_offset_upconv">
+                          <object class="GtkSpinButton" id="spinbutton_q_phase_upconv">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">5998,000000</property>
                             <property name="progress_pulse_step">0.11</property>
-                            <property name="adjustment">adj_sampling_frequency</property>
                             <property name="digits">6</property>
                             <property name="numeric">True</property>
                             <property name="value">5998</property>
@@ -726,7 +848,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label_frequency15">
+                          <object class="GtkLabel" id="label_upconv_quad_pd_enable">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
@@ -743,7 +865,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label_frequency16">
+                          <object class="GtkLabel" id="label_upconv_vga_pd_enable">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
@@ -760,7 +882,22 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSpinButton" id="spinbutton_phase_upconv">
+                          <object class="GtkSpinButton" id="spinbutton_i_phase_upconv">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="text" translatable="yes">0,000000</property>
+                            <property name="progress_pulse_step">0.11</property>
+                            <property name="digits">6</property>
+                            <property name="numeric">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="x_options"/>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="spinbutton_i_offset_upconv">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">0,000000</property>
@@ -772,7 +909,57 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
                             <property name="x_options"/>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="spinbutton_q_offset_upconv">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="text" translatable="yes">0,000000</property>
+                            <property name="progress_pulse_step">0.11</property>
+                            <property name="adjustment">adj_sampling_frequency</property>
+                            <property name="digits">6</property>
+                            <property name="numeric">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
+                            <property name="x_options"/>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label_i_offset_upconv">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">I Offset</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label_q_offset_upconv">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Q Offset</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
                       </object>
@@ -808,7 +995,22 @@
       </packing>
     </child>
   </object>
-  <object class="GtkAdjustment" id="adjustment1">
+  <object class="GtkAdjustment" id="adj_upconv_altvoltage0_i_offset">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_upconv_altvoltage0_i_phase">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_upconv_altvoltage0_q_offset">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_upconv_altvoltage0_q_phase">
     <property name="upper">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
