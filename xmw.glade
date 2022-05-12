@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.22.2 -->
 <interface>
-  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adj_downconv_altvoltage0_i_gain">
     <property name="upper">100</property>
     <property name="step_increment">1</property>
@@ -32,7 +31,36 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="adj_refin_frequency">
+    <property name="lower">10</property>
+    <property name="upper">600</property>
+    <property name="value">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkAdjustment" id="adj_sampling_frequency">
+    <property name="lower">53.130000000000003</property>
+    <property name="upper">13600</property>
+    <property name="value">6800</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_upconv_altvoltage0_i_offset">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_upconv_altvoltage0_i_phase">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_upconv_altvoltage0_q_offset">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adj_upconv_altvoltage0_q_phase">
     <property name="upper">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
@@ -133,7 +161,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="text" translatable="yes">0,000000</property>
                                 <property name="progress_pulse_step">0.11</property>
-                                <property name="adjustment">adj_sampling_frequency</property>
+                                <property name="adjustment">adj_refin_frequency</property>
                                 <property name="digits">6</property>
                                 <property name="numeric">True</property>
                               </object>
@@ -172,6 +200,7 @@
                                 <property name="right_attach">2</property>
                                 <property name="top_attach">1</property>
                                 <property name="bottom_attach">2</property>
+                                <property name="x_options"/>
                               </packing>
                             </child>
                           </object>
@@ -245,6 +274,12 @@
                         <property name="row_spacing">16</property>
                         <property name="homogeneous">True</property>
                         <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
                           <object class="GtkLabel" id="label_i_phase_downconv">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -309,6 +344,7 @@
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
+                            <property name="adjustment">adj_downconv_altvoltage0_q_phase</property>
                             <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
@@ -502,7 +538,7 @@
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
-                            <property name="adjustment">adj_sampling_frequency</property>
+                            <property name="adjustment">adj_downconv_altvoltage0_i_offset</property>
                             <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
@@ -520,7 +556,7 @@
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
-                            <property name="adjustment">adj_sampling_frequency</property>
+                            <property name="adjustment">adj_downconv_altvoltage0_q_offset</property>
                             <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
@@ -531,12 +567,6 @@
                             <property name="bottom_attach">4</property>
                             <property name="x_options"/>
                           </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                         <child>
                           <object class="GtkLabel" id="label_i_gain_downconv">
@@ -573,7 +603,7 @@
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
-                            <property name="adjustment">adj_sampling_frequency</property>
+                            <property name="adjustment">adj_downconv_altvoltage0_i_gain</property>
                             <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
@@ -591,7 +621,7 @@
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
-                            <property name="adjustment">adj_sampling_frequency</property>
+                            <property name="adjustment">adj_downconv_altvoltage0_q_gain</property>
                             <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
@@ -723,6 +753,7 @@
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">5998,000000</property>
                             <property name="progress_pulse_step">0.11</property>
+                            <property name="adjustment">adj_upconv_altvoltage0_q_phase</property>
                             <property name="digits">6</property>
                             <property name="numeric">True</property>
                             <property name="value">5998</property>
@@ -887,6 +918,7 @@
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
+                            <property name="adjustment">adj_upconv_altvoltage0_i_phase</property>
                             <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
@@ -902,7 +934,7 @@
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
-                            <property name="adjustment">adj_sampling_frequency</property>
+                            <property name="adjustment">adj_upconv_altvoltage0_i_offset</property>
                             <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
@@ -920,7 +952,7 @@
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
-                            <property name="adjustment">adj_sampling_frequency</property>
+                            <property name="adjustment">adj_upconv_altvoltage0_q_offset</property>
                             <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
@@ -994,25 +1026,5 @@
         <property name="position">2</property>
       </packing>
     </child>
-  </object>
-  <object class="GtkAdjustment" id="adj_upconv_altvoltage0_i_offset">
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adj_upconv_altvoltage0_i_phase">
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adj_upconv_altvoltage0_q_offset">
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adj_upconv_altvoltage0_q_phase">
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
   </object>
 </interface>
