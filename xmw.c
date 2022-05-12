@@ -14,7 +14,7 @@
 #include "../iio_widget.h"
 
 #define THIS_DRIVER	"XMW"
-#define CLK_DEVICE	"ad5356"
+#define CLK_DEVICE	"adf5356"
 #define UPCONV		"admv1013"
 #define DOWNCONV	"admv1014"
 
@@ -33,24 +33,63 @@ static struct iio_widget iio_widgets[25];
 static unsigned int num_widgets;
 
 static GtkWidget *xmw_panel;
-static GtkWidget *scale_offset;
-static GtkAdjustment *adj_scale;
+// static GtkWidget *scale_offset;
+// static GtkAdjustment *adj_scale;
 
 static gboolean plugin_detached;
 static gint this_page;
-static int scale_offset_db = 0;
+//static int scale_offset_db = 0;
 
 const gdouble mhz_scale = 1000000.0;
+
+
+static void save_widget_value(GtkWidget *widget, struct iio_widget *iio_w)
+{
+	iio_w->save(iio_w);
+	/* refresh widgets so that, we know if our value was updated */
+	iio_update_widgets(iio_widgets, num_widgets);
+}
+
+static void make_widget_update_signal_based(struct iio_widget *widgets,
+		unsigned int num_widgets)
+{
+	char signal_name[25];
+	unsigned int i;
+
+	for (i = 0; i < num_widgets; i++) {
+		if (GTK_IS_CHECK_BUTTON(widgets[i].widget))
+			sprintf(signal_name, "%s", "toggled");
+		else if (GTK_IS_TOGGLE_BUTTON(widgets[i].widget))
+			sprintf(signal_name, "%s", "toggled");
+		else if (GTK_IS_SPIN_BUTTON(widgets[i].widget))
+			sprintf(signal_name, "%s", "value-changed");
+		else if (GTK_IS_COMBO_BOX_TEXT(widgets[i].widget))
+			sprintf(signal_name, "%s", "changed");
+		else
+			printf("unhandled widget type, attribute: %s\n",
+			       widgets[i].attr_name);
+
+		if (GTK_IS_SPIN_BUTTON(widgets[i].widget) &&
+		    widgets[i].priv_progress != NULL) {
+			iio_spin_button_progress_activate(&widgets[i]);
+		} else {
+			g_signal_connect(G_OBJECT(widgets[i].widget),
+					 signal_name,
+					 G_CALLBACK(save_widget_value),
+					 &widgets[i]);
+		}
+	}
+}
 
 static GtkWidget *xmw_init(struct osc_plugin *plugin, GtkWidget *notebook,
 			      const char *ini_fn)
 {
 	GtkBuilder *builder;
-	struct iio_channel *dac_ch;
+	struct iio_channel *clk_ch_out;
 	struct iio_device *clk;
 	struct iio_device *upconv;
 	struct iio_device *downconv;
-	int ret;
+	//int ret;
 
 	builder = gtk_builder_new();
 
@@ -67,7 +106,7 @@ static GtkWidget *xmw_init(struct osc_plugin *plugin, GtkWidget *notebook,
 	upconv = iio_context_find_device(ctx, UPCONV);
 	downconv = iio_context_find_device(ctx, DOWNCONV);
 
-	if (!clk || !upconv || !upconv) {
+	if (!clk || !upconv || !downconv) {
 		printf("Could not find expected iio devices\n");
 		osc_destroy_context(ctx);
 		return NULL;
@@ -75,44 +114,47 @@ static GtkWidget *xmw_init(struct osc_plugin *plugin, GtkWidget *notebook,
 
 	xmw_panel = GTK_WIDGET(gtk_builder_get_object(builder,
 							 "xmw_panel"));
-	scale_offset = GTK_WIDGET(gtk_builder_get_object(builder,
-						"spinbutton_nco_offset"));
-	adj_scale = GTK_ADJUSTMENT(gtk_builder_get_object(builder,
-						"adj_altVoltage0_scale"));
+	// scale_offset = GTK_WIDGET(gtk_builder_get_object(builder,
+	// 					"spinbutton_nco_offset"));
+	// adj_scale = GTK_ADJUSTMENT(gtk_builder_get_object(builder,
+	// 					"adj_altVoltage0_scale"));
 
-	dac_ch = iio_device_find_channel(dac, "altvoltage0", true);
+	clk_ch_out = iio_device_find_channel(clk, "altvoltage0", true);
 
-	ret = iio_device_attr_write_longlong(dac, "fir85_enable", 1);
-	if (ret < 0) {
-		fprintf(stderr, "Failed to enable FIR85. Error: %d\n", ret);
-	}
+	// ret = iio_device_attr_write_longlong(dac, "fir85_enable", 1);
+	// if (ret < 0) {
+	// 	fprintf(stderr, "Failed to enable FIR85. Error: %d\n", ret);
+	// }
 
-	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], dac,
-					      NULL, "sampling_frequency",
+	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], clk,
+					      clk_ch_out, "frequency",
 					      builder, "spinbutton_sample_freq",
 					      &mhz_scale);
 
-	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], dac,
-					      dac_ch, "nco_frequency",
-					      builder, "spinbutton_nco_freq",
-					      &mhz_scale);
+	// iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], dac,
+	// 				      dac_ch, "nco_frequency",
+	// 				      builder, "spinbutton_nco_freq",
+	// 				      &mhz_scale);
 
-	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], dac,
-					      dac_ch, "raw", builder,
-					      "spinbutton_nco_scale", NULL);
-	iio_spin_button_set_convert_function(&iio_widgets[num_widgets - 1],
-					     db_full_scale_convert);
+	// iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], dac,
+	// 				      dac_ch, "raw", builder,
+	// 				      "spinbutton_nco_scale", NULL);
+	// iio_spin_button_set_convert_function(&iio_widgets[num_widgets - 1],
+	// 				     db_full_scale_convert);
 
-	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++],
-					    dac_amp, NULL, "en", builder,
-					    "dac_amplifier_enable", 0);
+	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], clk,
+					    clk_ch_out, "powerdown", builder,
+					    "clk_powerdown_enable", 0);
 
+
+	// make_widget_update_signal_based(iio_widgets, num_widgets);
+	// iio_update_widgets(iio_widgets, num_widgets);
+
+	// g_signal_connect(G_OBJECT(scale_offset), "value-changed",
+	// 		 G_CALLBACK(save_scale_offset), NULL);
 
 	make_widget_update_signal_based(iio_widgets, num_widgets);
 	iio_update_widgets(iio_widgets, num_widgets);
-
-	g_signal_connect(G_OBJECT(scale_offset), "value-changed",
-			 G_CALLBACK(save_scale_offset), NULL);
 
 	return xmw_panel;
 }
