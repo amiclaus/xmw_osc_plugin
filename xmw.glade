@@ -126,7 +126,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton_sample_freq">
+                              <object class="GtkSpinButton" id="spinbutton_out_freq">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="progress_pulse_step">0.11</property>
@@ -156,7 +156,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkSpinButton" id="spinbutton_sample_freq1">
+                              <object class="GtkSpinButton" id="spinbutton_refin_freq">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="text" translatable="yes">0,000000</property>
@@ -299,7 +299,6 @@
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_downconv_altvoltage0_i_phase</property>
-                            <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
                           <packing>
@@ -345,7 +344,6 @@
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_downconv_altvoltage0_q_phase</property>
-                            <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
                           <packing>
@@ -539,7 +537,6 @@
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_downconv_altvoltage0_i_offset</property>
-                            <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
                           <packing>
@@ -557,7 +554,6 @@
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_downconv_altvoltage0_q_offset</property>
-                            <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
                           <packing>
@@ -604,7 +600,6 @@
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_downconv_altvoltage0_i_gain</property>
-                            <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
                           <packing>
@@ -622,7 +617,6 @@
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_downconv_altvoltage0_q_gain</property>
-                            <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
                           <packing>
@@ -751,12 +745,10 @@
                           <object class="GtkSpinButton" id="spinbutton_q_phase_upconv">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="text" translatable="yes">5998,000000</property>
+                            <property name="text" translatable="yes">0</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_upconv_altvoltage0_q_phase</property>
-                            <property name="digits">6</property>
                             <property name="numeric">True</property>
-                            <property name="value">5998</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -919,7 +911,6 @@
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_upconv_altvoltage0_i_phase</property>
-                            <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
                           <packing>
@@ -935,7 +926,6 @@
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_upconv_altvoltage0_i_offset</property>
-                            <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
                           <packing>
@@ -953,7 +943,6 @@
                             <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_upconv_altvoltage0_q_offset</property>
-                            <property name="digits">6</property>
                             <property name="numeric">True</property>
                           </object>
                           <packing>
