@@ -18,27 +18,15 @@
 #define UPCONV		"admv1013"
 #define DOWNCONV	"admv1014"
 
-/*
- * For now leave this define as it is but, in future it would be nice if
- * the scaling is done in the driver so that, the plug in does not have
- * to knwow about  DAC_MAX_AMPLITUDE.
- */
-#define DAC_MAX_AMPLITUDE	32767.0
-#define SCALE_MINUS_INFINITE	-91.0
-#define SCALE_MAX		0
-
 static struct iio_context *ctx;
 
 static struct iio_widget iio_widgets[25];
 static unsigned int num_widgets;
 
 static GtkWidget *xmw_panel;
-// static GtkWidget *scale_offset;
-// static GtkAdjustment *adj_scale;
 
 static gboolean plugin_detached;
 static gint this_page;
-//static int scale_offset_db = 0;
 
 const gdouble mhz_scale = 1000000.0;
 
@@ -86,10 +74,12 @@ static GtkWidget *xmw_init(struct osc_plugin *plugin, GtkWidget *notebook,
 {
 	GtkBuilder *builder;
 	struct iio_channel *clk_ch_out;
+	struct iio_channel *clk_refin;
+	struct iio_channel *downconv_ch;
+	struct iio_channel *upconv_ch;
 	struct iio_device *clk;
 	struct iio_device *upconv;
 	struct iio_device *downconv;
-	//int ret;
 
 	builder = gtk_builder_new();
 
@@ -114,44 +104,119 @@ static GtkWidget *xmw_init(struct osc_plugin *plugin, GtkWidget *notebook,
 
 	xmw_panel = GTK_WIDGET(gtk_builder_get_object(builder,
 							 "xmw_panel"));
-	// scale_offset = GTK_WIDGET(gtk_builder_get_object(builder,
-	// 					"spinbutton_nco_offset"));
-	// adj_scale = GTK_ADJUSTMENT(gtk_builder_get_object(builder,
-	// 					"adj_altVoltage0_scale"));
 
 	clk_ch_out = iio_device_find_channel(clk, "altvoltage0", true);
+	clk_refin = iio_device_find_channel(clk, "altvoltage", true);
 
-	// ret = iio_device_attr_write_longlong(dac, "fir85_enable", 1);
-	// if (ret < 0) {
-	// 	fprintf(stderr, "Failed to enable FIR85. Error: %d\n", ret);
-	// }
+	downconv_ch = iio_device_find_channel(downconv, "altvoltage0", true);
+	upconv_ch = iio_device_find_channel(upconv, "altvoltage0", true);
 
+	/* ADF5356 */
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], clk,
 					      clk_ch_out, "frequency",
 					      builder, "spinbutton_sample_freq",
 					      &mhz_scale);
 
-	// iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], dac,
-	// 				      dac_ch, "nco_frequency",
-	// 				      builder, "spinbutton_nco_freq",
-	// 				      &mhz_scale);
-
-	// iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], dac,
-	// 				      dac_ch, "raw", builder,
-	// 				      "spinbutton_nco_scale", NULL);
-	// iio_spin_button_set_convert_function(&iio_widgets[num_widgets - 1],
-	// 				     db_full_scale_convert);
+	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], clk,
+					      clk_refin, "refin_frequency",
+					      builder, "spinbutton_refin_freq",
+					      &mhz_scale);
 
 	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], clk,
 					    clk_ch_out, "powerdown", builder,
 					    "clk_powerdown_enable", 0);
 
+	/* ADMV1014 */
+	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], downconv,
+					      downconv_ch, "i_hardwaregain",
+					      builder, "spinbutton_i_gain_downconv",
+					      &mhz_scale);
+	
+	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], downconv,
+					      downconv_ch, "q_hardwaregain",
+					      builder, "spinbutton_q_gain_downconv",
+					      &mhz_scale);
 
-	// make_widget_update_signal_based(iio_widgets, num_widgets);
-	// iio_update_widgets(iio_widgets, num_widgets);
+	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], downconv,
+					      downconv_ch, "i_phase",
+					      builder, "spinbutton_i_phase_downconv",
+					      &mhz_scale);
 
-	// g_signal_connect(G_OBJECT(scale_offset), "value-changed",
-	// 		 G_CALLBACK(save_scale_offset), NULL);
+	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], downconv,
+					      downconv_ch, "q_phase",
+					      builder, "spinbutton_q_phase_downconv",
+					      &mhz_scale);
+
+	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], downconv,
+					      downconv_ch, "i_offset",
+					      builder, "spinbutton_i_offset_downconv",
+					      &mhz_scale);
+
+	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], downconv,
+					      downconv_ch, "q_offset",
+					      builder, "spinbutton_q_offset_downconv",
+					      &mhz_scale);
+
+	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], downconv,
+					    downconv_ch, "bandgap_powerdown", builder,
+					    "downconv_bandgap_pd_enable", 0);
+
+	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], downconv,
+					    downconv_ch, "ibias_powerdown", builder,
+					    "downconv_ibias_pd_enable", 0);
+
+	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], downconv,
+					    downconv_ch, "lo_path_powerdown", builder,
+					    "downconv_lo_path_pd_enable", 0);
+
+	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], downconv,
+					    downconv_ch, "detector_powerdown", builder,
+					    "downconv_detector_pd_enable", 0);
+
+	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], downconv,
+					    downconv_ch, "device_powerdown", builder,
+					    "downconv_device_pd_enable", 0);
+
+	/* ADMV1013 */
+	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], upconv,
+					      upconv_ch, "i_phase",
+					      builder, "spinbutton_i_phase_upconv",
+					      &mhz_scale);
+
+	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], upconv,
+					      upconv_ch, "q_phase",
+					      builder, "spinbutton_q_phase_upconv",
+					      &mhz_scale);
+
+	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], upconv,
+					      upconv_ch, "i_offset",
+					      builder, "spinbutton_i_offset_upconv",
+					      &mhz_scale);
+
+	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], upconv,
+					      upconv_ch, "q_offset",
+					      builder, "spinbutton_q_offset_upconv",
+					      &mhz_scale);
+
+	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], upconv,
+					    upconv_ch, "quadrupler_powerdown", builder,
+					    "upconv_quad_pd_enable", 0);
+
+	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], upconv,
+					    upconv_ch, "vga_powerdown", builder,
+					    "upconv_vga_pd_enable", 0);
+
+	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], upconv,
+					    upconv_ch, "mixer_powerdown", builder,
+					    "upconv_mixer_pd_enable", 0);
+
+	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], upconv,
+					    upconv_ch, "detector_powerdown", builder,
+					    "upconv_detector_pd_enable", 0);
+
+	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], upconv,
+					    upconv_ch, "device_powerdown", builder,
+					    "upconv_device_pd_enable", 0);
 
 	make_widget_update_signal_based(iio_widgets, num_widgets);
 	iio_update_widgets(iio_widgets, num_widgets);
