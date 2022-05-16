@@ -159,7 +159,6 @@
                               <object class="GtkSpinButton" id="spinbutton_refin_freq">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="text" translatable="yes">0,000000</property>
                                 <property name="progress_pulse_step">0.11</property>
                                 <property name="adjustment">adj_refin_frequency</property>
                                 <property name="digits">6</property>
@@ -611,7 +610,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSpinButton" id="spinbutton_phase_downconv4">
+                          <object class="GtkSpinButton" id="spinbutton_q_gain_downconv">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="text" translatable="yes">0,000000</property>
@@ -745,7 +744,6 @@
                           <object class="GtkSpinButton" id="spinbutton_q_phase_upconv">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="text" translatable="yes">0</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_upconv_altvoltage0_q_phase</property>
                             <property name="numeric">True</property>
@@ -908,7 +906,6 @@
                           <object class="GtkSpinButton" id="spinbutton_i_phase_upconv">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_upconv_altvoltage0_i_phase</property>
                             <property name="numeric">True</property>
@@ -923,7 +920,6 @@
                           <object class="GtkSpinButton" id="spinbutton_i_offset_upconv">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_upconv_altvoltage0_i_offset</property>
                             <property name="numeric">True</property>
@@ -940,7 +936,6 @@
                           <object class="GtkSpinButton" id="spinbutton_q_offset_upconv">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="text" translatable="yes">0,000000</property>
                             <property name="progress_pulse_step">0.11</property>
                             <property name="adjustment">adj_upconv_altvoltage0_q_offset</property>
                             <property name="numeric">True</property>
