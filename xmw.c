@@ -20,7 +20,7 @@
 
 static struct iio_context *ctx;
 
-static struct iio_widget iio_widgets[25];
+static struct iio_widget iio_widgets[50];
 static unsigned int num_widgets;
 
 static GtkWidget *xmw_panel;
@@ -74,8 +74,11 @@ static GtkWidget *xmw_init(struct osc_plugin *plugin, GtkWidget *notebook,
 {
 	GtkBuilder *builder;
 	struct iio_channel *clk_ch_out;
-	struct iio_channel *clk_refin;
 	struct iio_channel *downconv_ch;
+	struct iio_channel *downconv_ch_i;
+	struct iio_channel *downconv_ch_q;
+	struct iio_channel *upconv_ch_i;
+	struct iio_channel *upconv_ch_q;
 	struct iio_channel *upconv_ch;
 	struct iio_device *clk;
 	struct iio_device *upconv;
@@ -106,19 +109,22 @@ static GtkWidget *xmw_init(struct osc_plugin *plugin, GtkWidget *notebook,
 							 "xmw_panel"));
 
 	clk_ch_out = iio_device_find_channel(clk, "altvoltage0", true);
-	clk_refin = iio_device_find_channel(clk, "altvoltage", true);
 
 	downconv_ch = iio_device_find_channel(downconv, "altvoltage0", true);
 	upconv_ch = iio_device_find_channel(upconv, "altvoltage0", true);
+	upconv_ch_i = iio_device_find_channel(upconv, "altvoltage0_i", true);
+	upconv_ch_q = iio_device_find_channel(upconv, "altvoltage0_q", true);
+	downconv_ch_i = iio_device_find_channel(downconv, "altvoltage0_i", true);
+	downconv_ch_q = iio_device_find_channel(downconv, "altvoltage0_q", true);
 
 	/* ADF5356 */
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], clk,
 					      clk_ch_out, "frequency",
-					      builder, "spinbutton_sample_freq",
+					      builder, "spinbutton_out_freq",
 					      &mhz_scale);
 
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], clk,
-					      clk_refin, "refin_frequency",
+					      clk_ch_out, "refin_frequency",
 					      builder, "spinbutton_refin_freq",
 					      &mhz_scale);
 
@@ -128,34 +134,34 @@ static GtkWidget *xmw_init(struct osc_plugin *plugin, GtkWidget *notebook,
 
 	/* ADMV1014 */
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], downconv,
-					      downconv_ch, "i_hardwaregain",
+					      downconv_ch_i, "hardwaregain",
 					      builder, "spinbutton_i_gain_downconv",
-					      &mhz_scale);
-	
+					      NULL);
+
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], downconv,
-					      downconv_ch, "q_hardwaregain",
+					      downconv_ch_q, "hardwaregain",
 					      builder, "spinbutton_q_gain_downconv",
-					      &mhz_scale);
+					      NULL);
 
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], downconv,
-					      downconv_ch, "i_phase",
+					      downconv_ch_i, "phase",
 					      builder, "spinbutton_i_phase_downconv",
-					      &mhz_scale);
+					      NULL);
 
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], downconv,
-					      downconv_ch, "q_phase",
+					      downconv_ch_q, "phase",
 					      builder, "spinbutton_q_phase_downconv",
-					      &mhz_scale);
+					      NULL);
 
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], downconv,
-					      downconv_ch, "i_offset",
+					      downconv_ch_i, "offset",
 					      builder, "spinbutton_i_offset_downconv",
-					      &mhz_scale);
+					      NULL);
 
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], downconv,
-					      downconv_ch, "q_offset",
+					      downconv_ch_q, "offset",
 					      builder, "spinbutton_q_offset_downconv",
-					      &mhz_scale);
+					      NULL);
 
 	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], downconv,
 					    downconv_ch, "bandgap_powerdown", builder,
@@ -179,24 +185,24 @@ static GtkWidget *xmw_init(struct osc_plugin *plugin, GtkWidget *notebook,
 
 	/* ADMV1013 */
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], upconv,
-					      upconv_ch, "i_phase",
+					      upconv_ch_i, "phase",
 					      builder, "spinbutton_i_phase_upconv",
-					      &mhz_scale);
+					      NULL);
 
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], upconv,
-					      upconv_ch, "q_phase",
+					      upconv_ch_q, "phase",
 					      builder, "spinbutton_q_phase_upconv",
-					      &mhz_scale);
+					      NULL);
 
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], upconv,
-					      upconv_ch, "i_offset",
+					      upconv_ch_i, "offset",
 					      builder, "spinbutton_i_offset_upconv",
-					      &mhz_scale);
+					      NULL);
 
 	iio_spin_button_int_init_from_builder(&iio_widgets[num_widgets++], upconv,
-					      upconv_ch, "q_offset",
+					      upconv_ch_q, "offset",
 					      builder, "spinbutton_q_offset_upconv",
-					      &mhz_scale);
+					      NULL);
 
 	iio_toggle_button_init_from_builder(&iio_widgets[num_widgets++], upconv,
 					    upconv_ch, "quadrupler_powerdown", builder,
