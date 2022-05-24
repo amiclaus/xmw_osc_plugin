@@ -43,7 +43,7 @@ static void save_widget_value(GtkWidget *widget, struct iio_widget *iio_w)
 static void make_widget_update_signal_based(struct iio_widget *widgets,
 		unsigned int num_widgets)
 {
-	char signal_name[25];
+	char signal_name[100];
 	unsigned int i;
 
 	for (i = 0; i < num_widgets; i++) {
