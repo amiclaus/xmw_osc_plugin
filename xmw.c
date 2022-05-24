@@ -32,7 +32,6 @@ static gint this_page;
 
 const gdouble mhz_scale = 1000000.0;
 
-
 static void save_widget_value(GtkWidget *widget, struct iio_widget *iio_w)
 {
 	iio_w->save(iio_w);
@@ -72,7 +71,7 @@ static void make_widget_update_signal_based(struct iio_widget *widgets,
 }
 
 static GtkWidget *xmw_init(struct osc_plugin *plugin, GtkWidget *notebook,
-			      const char *ini_fn)
+			   const char *ini_fn)
 {
 	GtkBuilder *builder;
 	struct iio_device *clk;
@@ -352,7 +351,7 @@ static void update_active_page(struct osc_plugin *plugin, gint active_page,
 }
 
 static void xmw_get_preferred_size(const struct osc_plugin *plugin,
-				      int *width, int *height)
+				   int *width, int *height)
 {
 	if (width)
 		*width = 640;
@@ -373,10 +372,10 @@ static bool xmw_identify(const struct osc_plugin *plugin)
 	struct iio_context *osc_ctx = get_context_from_osc();
 
 	return !!iio_context_find_device(osc_ctx, CLK_DEVICE) &&
-		!!iio_context_find_device(osc_ctx, UPCONV_A) &&
-		!!iio_context_find_device(osc_ctx, DOWNCONV_A) &&
-		!!iio_context_find_device(osc_ctx, UPCONV_B) &&
-		!!iio_context_find_device(osc_ctx, DOWNCONV_B);
+	       !!iio_context_find_device(osc_ctx, UPCONV_A) &&
+	       !!iio_context_find_device(osc_ctx, DOWNCONV_A) &&
+	       !!iio_context_find_device(osc_ctx, UPCONV_B) &&
+	       !!iio_context_find_device(osc_ctx, DOWNCONV_B);
 }
 
 struct osc_plugin plugin = {
